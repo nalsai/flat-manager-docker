@@ -1,3 +1,14 @@
+This repository is no longer maintained as the [official flat-manager repository](https://github.com/flatpak/flat-manager) now builds working docker images.  
+Use ghcr.io/flatpak/flat-manager:6bd4999b68748245abbbca5dbd686e60839f3a67 or later instead.  
+You can set the home directory and config file path using environment variables:
+
+```yaml
+    environment:
+      HOME: /flat-manager
+      REPO_CONFIG: /flat-manager/config.json
+      RUST_LOG: info
+```
+
 # flat-manager-docker
 
 flat-manager serves and maintains a Flatpak repository. You point it
@@ -187,7 +198,6 @@ DISCLAIMER: I do not know if this config is supported, but it works and I am usi
     },
 ```
 
-
 ### GPG
 
 To use gpg you can use the following commands.
@@ -202,11 +212,16 @@ gpg --export -a KEYID > gpg-pub.asc
 gpg --export-secret-keys -a KEYID > gpg-sc.asc
 
 # import to new homedir
+mkdir gpg
 gpg --homedir gpg --import gpg-pub.asc
 gpg --homedir gpg --import gpg-sc.asc
 
 # remove the passphrase
 gpg --homedir gpg --edit-key KEYID
+
+# permissions
+chmod 700 gpg
+chmod 600 gpg/*
 ```
 
 Then you can move the gpg directory to your bind mount and specify the key id in the config.json.
